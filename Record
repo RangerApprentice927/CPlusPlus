@@ -9,7 +9,7 @@ int goBack();
 int exitThis(){
 
        cout << "Do you wish to exit?" << endl;
-       cout << "Type 1 for yes, 2 for no" << endl;
+       cout << "Type 1 for yes, 2 for no, or 3 to go back to main menu" << endl;
         char answer = getch();
         switch(answer){
     case '1':
@@ -72,7 +72,7 @@ cout << "Do you want to go to the main menu?" << endl;
 char maybeBack = getch();
 switch(maybeBack){
 case '1':
-    main();
+    message();
 case '2':
     cout << "Ok.";
     break;
