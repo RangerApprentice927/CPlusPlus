@@ -1,0 +1,11 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "Welcome to the Management System!" << endl;
+    cout << "Presented to you by Ranger Apprentice 927" << endl;
+    cout << "Summer 2018" << endl;
+    return 0;
+}
