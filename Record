@@ -11,7 +11,7 @@ int exitThis(){
        cout << "Do you wish to exit?" << endl;
        cout << "Type 1 for yes, 2 for no, or 3 to go back to main menu" << endl;
         char answer = getch();
-        switch(answer){
+        /*switch(answer){
     case '1':
         exit (EXIT_FAILURE);
         break;
@@ -21,9 +21,17 @@ int exitThis(){
         goBack();
         }
         }
-
-
-
+*/ if(answer == '1'){
+    exit (EXIT_FAILURE);
+}else if(answer == '2'){
+    exitThis();
+}else if(answer == '3'){
+    goBack();
+}else if(answer != '1' || answer != '2' != '3'){
+    cout << "What you typed was not an option provided. Please try again." << endl;
+    exitThis();
+}
+}
 
 int message()
 {
