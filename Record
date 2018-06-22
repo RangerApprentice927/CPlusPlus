@@ -25,6 +25,119 @@ string editId;
 string editedId;*/
 int counter = 0;
 int goBack();
+string username;
+string password;
+string userInput;
+string userInputPassword;
+
+string adminName = "admin";
+string adminPass = "AdminAccess";
+int counter2 = 0;
+int counter3 = 0;
+char response;
+int goBack();
+int admin(){
+
+    cout << "Username: ";
+    cin >> username;
+    cout << "Password: ";
+    cin >> password;
+    if(username == adminName && password == adminPass){
+    ifstream read;
+        read.open("logininfo.txt");
+        if(!read.good()){
+            cout << "An error occured in opening the file.";
+            return 0;
+//////----------------------------------------------------------------------------------------------------------------------------------------///
+        }else if(read.good()){
+            cout << "Reading password and usernames..." << endl;
+        /////////////////////////////////////////////////////////////////////////
+        while(!read.eof()){
+    read >> contents;
+    cout << " "<<contents << endl;
+
+        }
+read.close();
+
+        }
+    }
+}
+    int login(){
+        ifstream read;
+    cout << "Please enter your username and password again. We just want to confirm it's you. " << endl;
+ cout << "Username: ";
+    cin >> username;
+    cout << "Password: ";
+    cin >> password;
+    read.open("logininfo.txt");
+    while(!read.eof()){
+    read >> contents;
+    if(username == contents){
+        counter2++;
+        break;
+    }
+    }
+    if(counter2 == 1){
+        read.close();
+        read.open("logininfo.txt");
+    while(!read.eof()){
+    read >> contents;
+    if(password ==  contents){
+        counter3++;
+        break;
+    }
+    }
+    if(counter3 == 0){
+        cout << "Sorry, either your username or password is wrong." << endl;
+        read.close();
+        return 1;
+    }
+    if(counter3 == 1){
+        read.close();
+        cout << "Access Granted" << endl;
+        cout << "Hello. You are about to read from the record(s)." << endl;
+
+    }
+    }
+    if(counter2 == 0){
+         read.close();
+        cout << "Sorry, either your username or password is wrong." << endl;
+        login();
+
+    }
+
+    }
+
+
+
+int create(){
+    ofstream write;
+cout << "To access some functions such as Search Record, Delete All Records, Read All Records, you must login or sign up. \n You have entered to sign up." << endl;
+cout << "What will your username be?" << endl;
+cin >> userInput;
+cout << "How about your password: " << endl;
+cin >> userInputPassword;
+write.open("logininfo.txt", std::ios_base::app); //appends to file
+if(!write.fail()){
+    write << "Username: " << userInput << endl;
+
+    write << "Password: " << userInputPassword << endl;
+
+
+}else{
+cerr << "An error occurred.";
+}
+
+write.close();
+cout << "Done! Now you can login to try it!" << endl;
+goBack();
+
+}
+
+
+
+
+
 int exitThis(){
 
        cout << "Do you wish to exit?" << endl;
@@ -61,6 +174,9 @@ int message()
 cout << "   <-------Main Menu:------->  " << endl;
 cout << "Press the option that you want before, it asks for you to enter the option." << endl;
 cout << "Sorry for the inconvienience, but for now options 5 and 6 are down." << endl;
+cout << "Also, now we require logins to access the options 2,3, and 4. \nPlease sign up below if you have not already." << endl;
+    Sleep(1000);
+    cout << "0. Sign Up" << endl;
     Sleep(1000);
     cout << "1. Enter Record" << endl;
     Sleep(1000);
@@ -82,13 +198,22 @@ cout << "Sorry for the inconvienience, but for now options 5 and 6 are down." <<
 
     switch(keyPressed1)
     {
+    case '0':
+        create();
     case '1':
         cout << "Hello. You are about to enter a record." << endl;
         cout << "What is your name?" << endl;
         cin >> name;
-        if(name == ""){
-        cout << "What is your name?" << endl;
-        cin >> name;
+        if(name == "theSecretMonkey" || name == "Illuminati" || name == "mortal"){
+        cout << "Hello, " << name << endl;
+        cout << "Your top secret mission is: " << endl;
+        exit(1);
+        }else if(name == "DonaldTrump"){
+        cout << "Hello, " << name << endl;
+        cout << "Your top secret mission is: Believing in global warming~" << endl;
+        // If there is anybody who dissaproves of this function above, please tell me, I don't mean to hurt feelings or cause outrage
+        // Remember this is for the sake of fun
+        exit(1);
         }
         cout << "What is your money balance?" << endl;
         cin >> money;
@@ -114,7 +239,14 @@ cout << "Sorry for the inconvienience, but for now options 5 and 6 are down." <<
             return 0;
         break;
     case '2':
-        cout << "Hello. You are about to read from the record(s)." << endl;
+        cout << "Press 1 to Login" << endl;
+        cin >> response;
+        if(response == '1'){
+        admin();
+        login();
+        } else if (response != '1' || response != '2'){
+        goBack;
+        }
         reading.open("information.txt");
         while(reading){
             getline(reading, contents);
@@ -128,6 +260,14 @@ cout << "Sorry for the inconvienience, but for now options 5 and 6 are down." <<
             goBack();
         return 0;
     case '3':
+        cout << "Press 1 to Login" << endl;
+        cin >> response;
+        if(response == '1'){
+        admin();
+        login();
+        } else if (response != '1' || response != '2'){
+        goBack;
+        }
         cout << "Whose name do you want to search up?" << endl;
         Sleep(2000);
         cin >> searchname;
@@ -170,6 +310,16 @@ cout << "Sorry for the inconvienience, but for now options 5 and 6 are down." <<
         break;
         return 0;
     case '4':
+       cout << "Username: ";
+    cin >> username;
+    cout << "Password: ";
+    cin >> password;
+    if(username == adminName && password == adminPass){
+        cout << "Permission granted" << endl;
+    }else if(username != adminName && password != adminPass){
+        cout << "Sorry. Permission denied." << endl;
+        goBack();
+    }
         cout << "You have chosen to delete all text in file." << endl;
         cout << "Opening File..." << endl;
         Sleep(1500);
