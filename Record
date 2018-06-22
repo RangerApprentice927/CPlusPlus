@@ -1,16 +1,35 @@
 #include <iostream>
-#include <conio.h>
 #include <fstream>
- #include <windows.h>
+#include <conio.h>
+#include <windows.h>
+#include <algorithm>
+#include <string>
 using namespace std;
+fstream tryit;
+ofstream output;
+ifstream reading;
+string contents;
+string searchname;
+/*string content1;
+string content2;
+string content3;
 
-
+string editName;
+string editMoney;
+string response1;
+string response2;
+string response3;
+string editedName;
+string editedMoney;
+string editId;
+string editedId;*/
+int counter = 0;
 int goBack();
 int exitThis(){
 
        cout << "Do you wish to exit?" << endl;
        cout << "Type 1 for yes, 2 for no, or 3 to go back to main menu" << endl;
-        char answer = getch();
+        char answer = getch();//
         /*switch(answer){
     case '1':
         exit (EXIT_FAILURE);
@@ -27,39 +46,206 @@ int exitThis(){
     exitThis();
 }else if(answer == '3'){
     goBack();
-}else if(answer != '1' || answer != '2' != '3'){
+}else if(answer != '1' || answer != '2'||answer != '3'){
     cout << "What you typed was not an option provided. Please try again." << endl;
     exitThis();
 }
+return 0;
 }
 
 int message()
 {
+    string name;
+    string money;
+    long int id;
 cout << "   <-------Main Menu:------->  " << endl;
+cout << "Press the option that you want before, it asks for you to enter the option." << endl;
+cout << "Sorry for the inconvienience, but for now options 5 and 6 are down." << endl;
     Sleep(1000);
     cout << "1. Enter Record" << endl;
     Sleep(1000);
-    cout << "2. Read Record" << endl;
+    cout << "2. Read all records " << endl;
     Sleep(1000);
-    cout << "3. Exit" << endl;
+    cout << "3. Search Record" << endl;
     Sleep(1000);
+    cout << "4. Delete all records" << endl;
+    Sleep(1000);
+    cout << "5. Edit a record (*Down*)" << endl;
+    Sleep(1000);
+    cout << "6. Delete a record (*Down*)" << endl;
+    Sleep(1000);
+    cout << "7. Exit" << endl;
+    Sleep(2000);
     cout << "Please Enter Option: " << endl;
-    char keyPressed1 = getch();
+    char keyPressed1 = getch();//
+
+
     switch(keyPressed1)
     {
     case '1':
         cout << "Hello. You are about to enter a record." << endl;
+        cout << "What is your name?" << endl;
+        cin >> name;
+        if(name == ""){
+        cout << "What is your name?" << endl;
+        cin >> name;
+        }
+        cout << "What is your money balance?" << endl;
+        cin >> money;
+        if(money == ""){
+        cout << "What is your money balance?" << endl;
+        cin >> money;
+        }
+        cout << "What is your id number?" << endl;
+        cin >> id;
 
+        output.open("information.txt", std::ofstream::out | std::ofstream::app); // std::ofstream::app means append to file and don't overwrite
+            //if(output.fail()){
+               // cout << "Error creating file" << endl;
+                   // return 0;
+            //}
+            output << "Name: " << name << endl;
+            output << "Money: " << money << endl;
+            output << "Id: " << id << endl;
+            output.close();
+            Sleep(2000);
+            cout << "Your record was written to the file." << endl;
+            goBack();
+            return 0;
         break;
     case '2':
         cout << "Hello. You are about to read from the record(s)." << endl;
-        break;
+        reading.open("information.txt");
+        while(reading){
+            getline(reading, contents);
+            cout << contents << "\n";
+            getline(reading, contents);
+            cout << contents << "\n";
+            getline(reading, contents);
+            cout << contents << "\n" << "\n";
+            }
+            reading.close();
+            goBack();
+        return 0;
     case '3':
+        cout << "Whose name do you want to search up?" << endl;
+        Sleep(2000);
+        cin >> searchname;
+        system("Pause");
+        reading.open("information.txt");
+        while(!reading.eof()){
+                reading >> contents;
+
+                if(searchname == contents){
+                    cout << " Found~" << endl;
+                    counter++;
+                    cout << " Name: ";
+                    cout << contents << endl;
+                    reading >> contents;
+                    cout << " " <<contents;
+                    reading >> contents;
+                    cout << " " <<contents << endl;
+                    reading >> contents;
+                    cout << " " <<contents;
+                    reading >> contents;
+                    cout << " " <<contents << endl;
+
+
+                }
+                 if(reading.eof() && counter == 0){
+                    cout << " Sorry. The name you searched up was not found. \n If you would like you could enter a record by that name or go to the main menu, just press Y for yes and N if not." << endl;
+                     char maybe = getch();
+                     switch(maybe){
+                 case 'Y':
+                     cout << " " << endl;
+                     goBack();
+                 case 'N':
+                     exit(1);
+                    break;
+                     }
+                }
+
+        }
+        reading.close();
+        break;
+        return 0;
+    case '4':
+        cout << "You have chosen to delete all text in file." << endl;
+        cout << "Opening File..." << endl;
+        Sleep(1500);
+        output.open("information.txt", ios::trunc);//deletes everything from file
+        cout << "Everything cleared." << endl;
+        goBack();
+ /*   case '5':
+        cout << "Hello and welcome! You have decided to edit a certain record. \n Since I prefer to change the record by name, please enter the name and we shall also change the money balance and ID if you want to." << endl;
+        cout << "Whose record do you want to change?" << endl;
+        cin >> editName;
+        cout << "\n";
+        tryit.open("information.txt");
+        if(!tryit){
+            cout << "Something went wrong!" << endl;
+            exit(1);
+        }
+
+        cout<< "Change name? Y for yes, N for no" << endl;
+        cin >> response1;
+        if(response1 == "Y"){
+        cout << "What do you want to change their name to?" << endl;
+        cin >> editedName;
+        while(!tryit.eof()){
+        tryit >> content1;
+        if(content1 == editName){
+            output.open("information.txt", std::ofstream::out |  std::ofstream::app);
+            content1.clear();
+            output << editedName;
+            output.close();
+            cout << "Done!" << endl;
+        }
+        }
+        }
+        cout<< "Change money? Y for yes, N for no" << endl;
+        cin >> response2;
+        if(response2 == "Y"){
+        cout << "What do you want to change their money balance to?" << endl;
+        cin >> editedMoney;
+        while(!tryit.eof()){
+        tryit >> content2;
+        if(content2 == editMoney){
+            output.open("information.txt",std::ofstream::out |  std::ofstream::app);
+            content2.clear();
+            output << editedMoney;
+            cout << "DONE!" << endl;
+            output.close();
+
+        }
+        }
+        }
+        cout<< "Change Id? Y for yes, N for no" << endl;
+        cin >> response3;
+        if(response3 == "Y"){
+        cout << "What do you want to change their Id number to?" << endl;
+        cin >> editedId;
+        while(!tryit.eof()){
+        tryit >> content3;
+        if(content3 == editId){
+            output.open("information.txt", std::ofstream::out | std::ofstream::app);
+            content3.clear();
+            output << editedId;
+            cout << "DONE!" << endl;
+            output.close();
+            cout << "DOOONE!" << endl;
+        }
+        }
+        }
+*/
+        tryit.close();
+    case '7':
         exitThis();
 
        return 0;
         break;
     }
+    return 0;
     }
 
 
@@ -77,12 +263,11 @@ message();
 int goBack(){
 cout << "Do you want to go to the main menu?" << endl;
  cout << "Type 1 for yes, 2 for no" << endl;
-char maybeBack = getch();
+char maybeBack = getch();//
 switch(maybeBack){
 case '1':
     message();
 case '2':
-    cout << "Ok.";
     break;
 }
 return 0;
